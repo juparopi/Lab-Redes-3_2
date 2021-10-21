@@ -5,8 +5,8 @@ import time
 import hashlib
 import struct as st
 
-PORT = 9000
-SERVER = "127.0.0.1"
+PORT = 9011
+SERVER = "192.168.231.128"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 FILES_DIR = 'archivos'
@@ -142,8 +142,9 @@ class ClientThread(threading.Thread):
                 while line:
                     sent = sUDP.sendto(line, udpaddr)
                     line = f.read(1024)
-                    self.conn.send(b' ')
-                self.conn.send(b'termino')
+                    
+                    self.conn.send(" ".encode(FORMAT))
+                self.conn.send("termino".encode(FORMAT))
                 sUDP.close()
                 
                 
