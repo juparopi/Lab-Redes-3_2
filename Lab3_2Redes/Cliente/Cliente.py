@@ -11,10 +11,10 @@ numClientes = int(input('Ingrese el numero de clientes que desea crear>> '))
 def clientFunction(name):
     
     UDPPORT = name +9500
-    PORT = 9000
+    PORT = 9011
     FORMAT = 'utf-8'
-    #SERVER = "192.168.231.128"
-    SERVER = "127.0.0.1"
+    SERVER = "192.168.231.128"
+    #SERVER = "127.0.0.1"
     ADDR = (SERVER, PORT)
     FILES_DIR = 'archivos'
     LOGS_DIR = 'logs'
@@ -66,20 +66,17 @@ def clientFunction(name):
         # Se recibe el tamaño del archivo
         file_size = int(st.unpack('I',s.recv(4))[0])
         log.write('El archivo pesa {} bytes\n'.format(file_size))
-        
         # Se guarda el archivo en el cliente    
-        total_file_size = 0
         flag = True;
         while flag:
+            flag_tcp = str(s.recv(255).decode(FORMAT))
             data , addrudp = sUDP.recvfrom(1024)
-            total_file_size+=len(data)
-            tcpdata = s.recv(1024)
-            if tcpdata == b'termino':
-                flag = False
             f.write(data)
+            if flag_tcp.endswith('o'):
+                flag = False
+                break
         f.close()
     sUDP.close()
-    
     s.send('Archivo recibido'.encode(FORMAT))
     # Se recibe el hash del server
     checksum = s.recv(64)
@@ -90,11 +87,12 @@ def clientFunction(name):
         s.send("ok".encode(FORMAT))
         console_msg = 'El archivo de '+str(file_size)+" bytes se recibio de forma exitosa"
         log.write(console_msg+'\n')
+        print(console_msg)
     else:
         s.send("not ok".encode(FORMAT))
-        console_msg = 'El archivo no se recibio bien'
+        console_msg = 'El archivo '+str(name)+' no se recibio bien'
         log.write(console_msg+'\n')
-        
+        print(console_msg)
     
     # Se envia el tiempo de terminacion
     s.send(st.pack('d',time.time()))
