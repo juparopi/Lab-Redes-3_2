@@ -1,0 +1,5 @@
+Se recibe el archivo 100.txt 
+El archivo pesa 104857600 bytes
+El archivo 4 no se recibio bien
+Tiempo de transmicion fue: 3.758 s 
+El archivo 4 no se recibio bien

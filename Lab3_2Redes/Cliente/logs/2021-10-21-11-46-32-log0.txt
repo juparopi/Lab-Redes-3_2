@@ -1,0 +1,5 @@
+Se recibe el archivo 250.txt 
+El archivo pesa 262144000 bytes
+El archivo 0 no se recibio bien
+Tiempo de transmicion fue: 9.652 s 
+El archivo 0 no se recibio bien
